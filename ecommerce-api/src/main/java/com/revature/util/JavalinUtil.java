@@ -16,6 +16,12 @@ public class JavalinUtil {
 
         return Javalin.create(config -> {
             config.router.apiBuilder(() -> {
+                path("/users", () -> {
+                    post("/register", userController:: registerUserHandler);
+                    post("/login", userController:: loginHandler);
+                    put("/{userId}", userController:: updatedHandler);
+                    get("/orders/{userId}", userController:: getAllOrdersById);
+                });
             });
         }).start(port);
     }
