@@ -1,7 +1,11 @@
 package com.revature;
 
+import com.revature.util.JavalinUtil;
+
+import java.sql.SQLException;
+
 public class Main {
   public static void main(String[] args) {
-    System.out.println("Hello, World!");
+    JavalinUtil.create(4500);
   }
 }
