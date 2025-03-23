@@ -10,13 +10,14 @@ import java.util.List;
         * CREATE:
             * An account => create();
         * READ:
-            * Get User => getById(), getUUserByUsername()
+            * Get User => getById(), getUserByUsername()
             * My order history => viewMyOrderHistory()
         * UPDATE:
             *  My accounts details (name, email, password) => update()
 */
 
 public interface UserDAO extends GeneralDAO<User> {
-    List<Order> viewMyOrderHistory(String username);
+    List<Order> orderHistory(int userId);
+    User getUserByEmail(String email);
     User getUserByUsername(String Username);
 }
