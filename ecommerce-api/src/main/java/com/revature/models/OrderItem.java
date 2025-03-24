@@ -7,16 +7,11 @@ public class OrderItem {
     private int quantity;
     private double price;
 
-    private static int orderItemIdCounter = 1;
-
     public OrderItem(int orderId, int productId, int quantity, double price) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
-
-        this.orderItemId = orderItemIdCounter;
-        orderItemIdCounter++;
     }
 
     public OrderItem(){}

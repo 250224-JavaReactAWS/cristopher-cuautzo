@@ -8,17 +8,12 @@ public class Address {
     private String instructions;
     private int userId;
 
-    private static int addressIdCounter = 1;
-
     public Address(String country, String street, String zipCode, String instructions, int userId) {
         this.country = country;
         this.street = street;
         this.zipCode = zipCode;
         this.instructions = instructions;
         this.userId = userId;
-
-        this.addressId = addressIdCounter;
-        addressIdCounter++;
     }
 
     public Address(String country, String street, String zipCode, int userId) {
@@ -26,9 +21,6 @@ public class Address {
         this.street = street;
         this.zipCode = zipCode;
         this.userId = userId;
-
-        this.addressId = addressIdCounter;
-        addressIdCounter++;
     }
 
     public Address(){}

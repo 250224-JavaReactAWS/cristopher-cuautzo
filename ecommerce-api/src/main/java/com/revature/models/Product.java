@@ -7,15 +7,11 @@ public class Product {
     private Double price;
     private int stock;
 
-    private static int productIdCounter = 1;
     public Product(String name, String description, Double price, int stock) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
-
-        this.productId = productIdCounter;
-        productIdCounter++;
     }
 
     public Product(){}
