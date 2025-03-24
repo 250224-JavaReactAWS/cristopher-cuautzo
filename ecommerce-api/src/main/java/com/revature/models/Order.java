@@ -9,17 +9,12 @@ public class Order {
     private Status status;
     private Date createdAt;
 
-    private static int orderIdCounter = 1;
-
     public Order(int userId, double totalPrice) {
         this.userId = userId;
         this.totalPrice = totalPrice;
 
-        this.createdAt = new Date();
         this.status = Status.PENDING;
-
-        this.orderId = orderIdCounter;
-        orderIdCounter++;
+        this.createdAt = new Date();
     }
 
     public Order(){}
@@ -32,9 +27,9 @@ public class Order {
 
     public void setUserId(int userId) { this.userId = userId; }
 
-    public double getTotal_price() { return totalPrice; }
+    public double getTotalPrice() { return totalPrice; }
 
-    public void setTotal_price(double totalPrice) { this.totalPrice = totalPrice; }
+    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
 
     public Status getStatus() { return status; }
 

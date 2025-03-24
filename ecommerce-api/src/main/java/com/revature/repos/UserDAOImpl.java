@@ -24,10 +24,14 @@ public class UserDAOImpl implements UserDAO{
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            Order returnedOrder = new Order(rs.getInt("user_id"), rs.getDouble("total_price"),
-                    Status.valueOf(rs.getString("status")), rs.getDate("created_at"));
+            Order returnedOrder = new Order(
+                    rs.getInt("user_id"),
+                    rs.getDouble("total_price")
+            );
 
             returnedOrder.setOrderId(rs.getInt("order_id"));
+            returnedOrder.setStatus(Status.valueOf(rs.getString("status")));
+            returnedOrder.setCreatedAt(rs.getDate("created_at"));
 
             orders.add(returnedOrder);
         }
