@@ -100,7 +100,7 @@ public class UserController {
         ctx.sessionAttribute("role", returnedUser.getRole());
     }
 
-    public void updatedHandler(Context ctx) {
+    public void updateUserHandler(Context ctx) {
         Object sessionUserIdObj = ctx.sessionAttribute("userId");
         String sessionUserId = sessionUserIdObj != null ? sessionUserIdObj.toString() : null;
         String userId = ctx.pathParam("userId");
@@ -119,17 +119,17 @@ public class UserController {
 
         Map<String, String> mapDataToUpdate;
         try {
-            mapDataToUpdate = mapper.readValue(ctx.body(), new TypeReference<Map<String, String>>() {});
+            mapDataToUpdate = mapper.readValue(ctx.body(), new TypeReference<>() {});
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        String firstName = (String) mapDataToUpdate.getOrDefault("firstName", null);
-        String lastName = (String) mapDataToUpdate.getOrDefault("lastName", null);
-        String username = (String) mapDataToUpdate.getOrDefault("username", null);
-        String email = (String) mapDataToUpdate.getOrDefault("email", null);
-        String phoneNumber = (String) mapDataToUpdate.getOrDefault("phoneNumber", null);
-        String password = (String) mapDataToUpdate.getOrDefault("password", null);
+        String firstName = mapDataToUpdate.getOrDefault("firstName", null);
+        String lastName = mapDataToUpdate.getOrDefault("lastName", null);
+        String username = mapDataToUpdate.getOrDefault("username", null);
+        String email = mapDataToUpdate.getOrDefault("email", null);
+        String phoneNumber = mapDataToUpdate.getOrDefault("phoneNumber", null);
+        String password = mapDataToUpdate.getOrDefault("password", null);
 
         if(username != null && userService.isValidateUsername(username)) {
             ctx.status(400);
@@ -185,6 +185,7 @@ public class UserController {
 
         ctx.status(200);
         ctx.json(updatedUser);
+        logger.warn("The user with the id " + sessionUserId + " was updated");
     }
 
     public void getAllOrdersById(Context ctx) {

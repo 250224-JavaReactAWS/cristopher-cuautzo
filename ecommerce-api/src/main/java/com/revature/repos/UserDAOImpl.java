@@ -135,7 +135,7 @@ public class UserDAOImpl implements UserDAO{
             ps.setString(6, obj.getPassword());
 
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            if (rs.next()) {
                 User u = new User();
 
                 u.setUserId(rs.getInt("user_id"));
@@ -221,7 +221,6 @@ public class UserDAOImpl implements UserDAO{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
 
-            System.out.println("The User with the user_id = " + id + " was deleted");
             return true;
 
         } catch (SQLException e) {

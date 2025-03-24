@@ -76,8 +76,6 @@ public class UserService {
         if (phoneNumber != null) { user.setPhoneNumber(phoneNumber); }
         if (password != null) { user.setPassword(password); }
 
-        System.out.println(user);
-
         return userDAO.update(user);
     }
 
