@@ -17,6 +17,5 @@ public interface ProductDAO extends GeneralDAO<Product>{
         * DELETE:
             * Delete products => deleteById() (ONLY ADMIN)
      */
-    List<Product> getAvaiableProducts();
     Product getProductByName(String name);
 }
