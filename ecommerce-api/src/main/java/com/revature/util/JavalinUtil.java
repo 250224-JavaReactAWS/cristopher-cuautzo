@@ -1,11 +1,10 @@
 package com.revature.util;
 
+import com.revature.controllers.CartItemController;
 import com.revature.controllers.ProductController;
 import com.revature.controllers.UserController;
-import com.revature.repos.ProductDAO;
-import com.revature.repos.ProductDAOImpl;
-import com.revature.repos.UserDAO;
-import com.revature.repos.UserDAOImpl;
+import com.revature.repos.*;
+import com.revature.services.CartItemService;
 import com.revature.services.ProductService;
 import com.revature.services.UserService;
 import io.javalin.Javalin;
@@ -22,6 +21,10 @@ public class JavalinUtil {
         ProductService productService = new ProductService(productDAO);
         ProductController productController = new ProductController(productService);
 
+        CartItemDAO cartItemDAO = new CarItemDAOImpl();
+        CartItemService cartItemService = new CartItemService(cartItemDAO);
+        CartItemController cartItemController = new CartItemController(cartItemService);
+
         return Javalin.create(config -> {
             config.router.apiBuilder(() -> {
                 path("/users", () -> {
@@ -36,6 +39,11 @@ public class JavalinUtil {
                     post("/new", productController:: addProductHandler);
                     post("/{productId}", productController:: updateProductHandler);
                     delete("/{productId}", productController:: deleteProductHandler);
+                });
+                path("/cart", () -> {
+                    post("/newItem", cartItemController:: newCartItemHandler);
+                    post("/updateItem/{productId}", cartItemController:: updateQuantityOfItem);
+                    delete("/deleteItem/{productId}", cartItemController:: removeCartItem);
                 });
             });
         }).start(port);
