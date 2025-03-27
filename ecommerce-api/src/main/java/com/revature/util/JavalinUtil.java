@@ -1,10 +1,12 @@
 package com.revature.util;
 
 import com.revature.controllers.CartItemController;
+import com.revature.controllers.OrderController;
 import com.revature.controllers.ProductController;
 import com.revature.controllers.UserController;
 import com.revature.repos.*;
 import com.revature.services.CartItemService;
+import com.revature.services.OrderService;
 import com.revature.services.ProductService;
 import com.revature.services.UserService;
 import io.javalin.Javalin;
@@ -24,6 +26,10 @@ public class JavalinUtil {
         CartItemDAO cartItemDAO = new CarItemDAOImpl();
         CartItemService cartItemService = new CartItemService(cartItemDAO);
         CartItemController cartItemController = new CartItemController(cartItemService);
+
+        OrderDAO orderDAO = new OrderDAOImpl();
+        OrderService orderService = new OrderService(orderDAO);
+        OrderController orderController = new OrderController(orderService);
 
         return Javalin.create(config -> {
             config.router.apiBuilder(() -> {
@@ -45,6 +51,12 @@ public class JavalinUtil {
                     post("/newItem", cartItemController:: newCartItemHandler);
                     patch("/updateItem/{productId}", cartItemController:: updateQuantityOfItem);
                     delete("/deleteItem/{productId}", cartItemController:: removeCartItem);
+                });
+                path("orders", () -> {
+                    post("/new", orderController:: createAnOrderHandler);
+                    put("/update/{orderId}", orderController:: updateAnOrderHandler);
+                    get("/byStatus/{status}", orderController:: getAllOrdersByStatus);
+                    get("/",orderController:: getAllOrders);
                 });
             });
         }).start(port);
