@@ -24,35 +24,35 @@ public class UserController {
     public void registerUserHandler(Context ctx){
         User user = ctx.bodyAsClass(User.class);
 
-        if(userService.isValidateUsername(user.getUsername())) {
+        if(!userService.isValidateUsername(user.getUsername())) {
             ctx.status(400);
             ctx.json(new ErrorMessage("Invalid Username. Needs to start with a letter (Uppercase or lowercase) " +
-                    "and only can contain uppercase or lowercase letters, numbers and underscore"));
+                                      "and must be at least 8 characters. Also only can contain uppercase and " +
+                                      "lowercase letters, numbers and underscore"));
             return;
         }
 
-        if (userService.isValidatePassword(user.getPassword())) {
+        if (!userService.isValidatePassword(user.getPassword())) {
             ctx.status(400);
-            ctx.json(new ErrorMessage("Invalid Password. Must be at least 8 characters long " +
-                    "and need contain one uppercase letter, one lower case letter " +
-                    "and one special character (@$!%*?&)"));
+            ctx.json(new ErrorMessage("Invalid Password. Must be at least 8 characters long. Its also needs to contain " +
+                    "one uppercase letter, one lower case letter and one special character (@$!%*?&)"));
             return;
         }
 
-        if (userService.isValidateEmail(user.getEmail())) {
+        if (!userService.isValidateEmail(user.getEmail())) {
             ctx.status(400);
             ctx.json(new ErrorMessage("Invalid email. Valid format is example@domain.com"));
             return;
         }
 
-        if (userService.isValidatePhoneNumber(user.getPhoneNumber())) {
+        if (!userService.isValidatePhoneNumber(user.getPhoneNumber())) {
             ctx.status(400);
             ctx.json(new ErrorMessage("Invalid Phone Number. Valid format is (+##)-###-###-#### " +
                     "(The country code is optional)"));
             return;
         }
 
-        if (userService.isUsernameAvaiable(user.getUsername())){
+        if (!userService.isUsernameAvaiable(user.getUsername())){
             ctx.status(400);
             ctx.json(new ErrorMessage("Username is not available, please select a new one"));
 
@@ -131,14 +131,14 @@ public class UserController {
         String phoneNumber = mapDataToUpdate.getOrDefault("phoneNumber", null);
         String password = mapDataToUpdate.getOrDefault("password", null);
 
-        if(username != null && userService.isValidateUsername(username)) {
+        if(username != null && !userService.isValidateUsername(username)) {
             ctx.status(400);
             ctx.json(new ErrorMessage("Invalid Username. Needs to start with a letter (Uppercase or lowercase) " +
                     "and only can contain uppercase or lowercase letters, numbers and underscore"));
             return;
         }
 
-        if (password != null && userService.isValidatePassword(password)) {
+        if (password != null && !userService.isValidatePassword(password)) {
             ctx.status(400);
             ctx.json(new ErrorMessage("Invalid Password. Must be at least 8 characters long " +
                     "and need contain one uppercase letter, one lower case letter " +
@@ -146,20 +146,20 @@ public class UserController {
             return;
         }
 
-        if (email != null && userService.isValidateEmail(email)) {
+        if (email != null && !userService.isValidateEmail(email)) {
             ctx.status(400);
             ctx.json(new ErrorMessage("Invalid email. Valid format is example@domain.com"));
             return;
         }
 
-        if (phoneNumber != null && userService.isValidatePhoneNumber(phoneNumber)) {
+        if (phoneNumber != null && !userService.isValidatePhoneNumber(phoneNumber)) {
             ctx.status(400);
             ctx.json(new ErrorMessage("Invalid Phone Number. Valid format is (+##)-###-###-#### " +
                     "(The country code is optional)"));
             return;
         }
 
-        if ((username != null && userService.isUsernameAvaiable(username))){
+        if ((username != null && !userService.isUsernameAvaiable(username))){
             ctx.status(400);
             ctx.json(new ErrorMessage("Username is not available, please select a new one"));
 

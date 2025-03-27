@@ -20,27 +20,29 @@ public class UserService {
 
     // Validate data
     public boolean isUsernameAvaiable(String username) {
-        return userDAO.getUserByUsername(username) != null;
+        return userDAO.getUserByUsername(username) == null;
     }
 
     public boolean isValidateUsername(String username) {
-        return !Pattern.matches(USERNAME_REGEX, username);
+        return Pattern.matches(USERNAME_REGEX, username);
     }
 
     public boolean isValidatePassword(String password) {
-        return !Pattern.matches(PASSWORD_REGEX, password);
+        return Pattern.matches(PASSWORD_REGEX, password);
     }
 
     public boolean isValidateEmail(String email) {
-        return !Pattern.matches(EMAIL_REGEX, email);
+        return Pattern.matches(EMAIL_REGEX, email);
     }
 
     public boolean isValidatePhoneNumber(String phoneNumber) {
-        return !Pattern.matches(PHONE_NUMBER_REGEX, phoneNumber);
+        return Pattern.matches(PHONE_NUMBER_REGEX, phoneNumber);
     }
 
     // Service Functions
-    public List<User> getAllUsers() { return userDAO.getAll(); }
+    public List<User> getAllUsers() {
+        return userDAO.getAll();
+    }
 
     public User createUser(String firstName, String lastName, String username,
                            String email, String phoneNumber ,String password) {
@@ -79,5 +81,7 @@ public class UserService {
         return userDAO.update(user);
     }
 
-    public List<Order> getAllOrdersById(int id) { return userDAO.orderHistory(id); }
+    public List<Order> getAllOrdersById(int id) {
+        return userDAO.orderHistory(id);
+    }
 }
