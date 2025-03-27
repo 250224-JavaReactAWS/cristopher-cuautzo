@@ -178,5 +178,23 @@ public class CarItemDAOImpl implements CartItemDAO{
     public List<CartItem> getAll() { return List.of(); }
 
     @Override
-    public boolean deleteById(int id) {return false;}
+    public boolean deleteById(int id) {
+        try (Connection conn = ConnectionUtil.getConnection()) {
+            String sql = "DELETE FROM cartitems WHERE user_id = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+            if(rows > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Cannot delete the items from the cart");
+        }
+        return false;
+    }
 }

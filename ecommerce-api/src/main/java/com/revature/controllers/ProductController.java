@@ -21,11 +21,31 @@ public class ProductController {
 
     public ProductController(ProductService productService) { this.productService = productService; }
 
-    public void getProductsAvailable(Context ctx) { ctx.json(productService.getProductsAvailable()); }
+    public void getProductsAvailable(Context ctx) {
+        if(productService.getProductsAvailable().isEmpty()) {
+            ctx.status(404);
+            ctx.json(new ErrorMessage("For the moment we don´t have stock. Try again later"));
+        } else {
+            ctx.status(200);
+            ctx.json(productService.getProductsAvailable());
+        }
+    }
 
     public void getProductByName(Context ctx) {
-        String pathName = ctx.pathParam("name");
-        ctx.json(productService.getProductByName(pathName));
+        String name = ctx.queryParam("name");
+        if (name == null) {
+            ctx.status(400);
+            ctx.json(new ErrorMessage("You need to add a query param with name as key"));
+            return;
+        }
+
+        if (productService.getProductByName(name) == null){
+            ctx.status(404);
+            ctx.json(new ErrorMessage("We don´t have that product. Maybe later"));
+        } else {
+            ctx.status(200);
+            ctx.json(productService.getProductByName(name));
+        }
     }
 
     public void addProductHandler(Context ctx) {
@@ -35,7 +55,7 @@ public class ProductController {
 
         if (ctx.sessionAttribute("userId") == null) {
             ctx.status(401);
-            ctx.json(new ErrorMessage("You must be logged in to updated your account info"));
+            ctx.json(new ErrorMessage("You must be logged in to add a product"));
             return;
         }
 
@@ -71,13 +91,13 @@ public class ProductController {
 
         if (ctx.sessionAttribute("userId") == null) {
             ctx.status(401);
-            ctx.json(new ErrorMessage("You must be logged in to updated your account info"));
+            ctx.json(new ErrorMessage("You must be logged in to update a product"));
             return;
         }
 
         if (!sessionRole.equals(Role.ADMIN)) {
             ctx.status(403);
-            ctx.json(new ErrorMessage("You don´t have permissions to create a product"));
+            ctx.json(new ErrorMessage("You don´t have permissions to update a product"));
             return;
         }
 
@@ -113,13 +133,13 @@ public class ProductController {
 
         if (ctx.sessionAttribute("userId") == null) {
             ctx.status(401);
-            ctx.json(new ErrorMessage("You must be logged in to updated your account info"));
+            ctx.json(new ErrorMessage("You must be logged in to delete a product"));
             return;
         }
 
         if (!sessionRole.equals(Role.ADMIN)) {
             ctx.status(403);
-            ctx.json(new ErrorMessage("You don´t have permissions to create a product"));
+            ctx.json(new ErrorMessage("You don´t have permissions to delete a product"));
             return;
         }
 

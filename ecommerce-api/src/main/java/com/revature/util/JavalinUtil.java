@@ -35,7 +35,7 @@ public class JavalinUtil {
                 });
                 path("/products", () -> {
                     get("/available", productController:: getProductsAvailable);
-                    get("/{name}", productController:: getProductByName);
+                    get("/", productController:: getProductByName);
                     post("/new", productController:: addProductHandler);
                     post("/{productId}", productController:: updateProductHandler);
                     delete("/{productId}", productController:: deleteProductHandler);

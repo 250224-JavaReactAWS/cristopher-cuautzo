@@ -113,7 +113,7 @@ public class UserController {
 
         if (!sessionUserId.equals(userId)) {
             ctx.status(403);
-            ctx.json(new ErrorMessage("You are not the user " + userId));
+            ctx.json(new ErrorMessage("You are not the user with the id" + userId));
             return;
         }
 
@@ -201,7 +201,7 @@ public class UserController {
 
         if (!sessionUserId.equals(pathUserId)) {
             ctx.status(403);
-            ctx.json(new ErrorMessage("You are not the user " + pathUserId));
+            ctx.json(new ErrorMessage("You are not the user with the id:  " + pathUserId));
             return;
         }
 
