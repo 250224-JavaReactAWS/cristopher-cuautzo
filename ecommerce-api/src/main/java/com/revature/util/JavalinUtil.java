@@ -37,12 +37,13 @@ public class JavalinUtil {
                     get("/available", productController:: getProductsAvailable);
                     get("/", productController:: getProductByName);
                     post("/new", productController:: addProductHandler);
-                    post("/{productId}", productController:: updateProductHandler);
+                    patch("/{productId}", productController:: updateProductHandler);
                     delete("/{productId}", productController:: deleteProductHandler);
                 });
                 path("/cart", () -> {
+                    get("", cartItemController:: getAllCartItemsHandler);
                     post("/newItem", cartItemController:: newCartItemHandler);
-                    post("/updateItem/{productId}", cartItemController:: updateQuantityOfItem);
+                    patch("/updateItem/{productId}", cartItemController:: updateQuantityOfItem);
                     delete("/deleteItem/{productId}", cartItemController:: removeCartItem);
                 });
             });

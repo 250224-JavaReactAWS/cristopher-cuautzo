@@ -11,6 +11,7 @@ import io.javalin.http.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 
 public class CartItemController {
@@ -26,7 +27,7 @@ public class CartItemController {
 
         if (ctx.sessionAttribute("userId") == null) {
             ctx.status(401);
-            ctx.json(new ErrorMessage("You must be logged in to updated your account info"));
+            ctx.json(new ErrorMessage("You must be logged to see your cart"));
             return;
         }
 
@@ -55,6 +56,34 @@ public class CartItemController {
                 + ", was added successfully to the cart of the user with id: " + sessionUserId);
     }
 
+    public void getAllCartItemsHandler(Context ctx) {
+        Object sessionUserIdObj = ctx.sessionAttribute("userId");
+        Integer sessionUserId = Integer.parseInt(sessionUserIdObj.toString());
+
+        if (ctx.sessionAttribute("userId") == null) {
+            ctx.status(401);
+            ctx.json(new ErrorMessage("You must be logged into to see your cart"));
+            return;
+        }
+
+        if (!sessionUserId.equals(sessionUserId)) {
+            ctx.status(403);
+            ctx.json(new ErrorMessage("You are not the user with the id: " + sessionUserId));
+            return;
+        }
+
+        List<CartItem> cart = cartItemService.getAllCartItems(sessionUserId);
+
+        if(cart.isEmpty()) {
+            ctx.status(400);
+            ctx.json(new ErrorMessage("Your cart is empty"));
+            return;
+        }
+
+        ctx.status(201);
+        ctx.json(cart);
+    }
+
     public void updateQuantityOfItem(Context ctx) {
         Object sessionUserIdObj = ctx.sessionAttribute("userId");
         String sessionUserIdString = sessionUserIdObj != null ? sessionUserIdObj.toString() : null;
@@ -63,7 +92,7 @@ public class CartItemController {
 
         if (sessionUserIdString == null) {
             ctx.status(401);
-            ctx.json(new ErrorMessage("You must be logged in to updated your account info"));
+            ctx.json(new ErrorMessage("You must be logged to see your cart"));
             return;
         }
 

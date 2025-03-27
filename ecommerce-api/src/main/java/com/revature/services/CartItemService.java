@@ -3,10 +3,16 @@ package com.revature.services;
 import com.revature.models.CartItem;
 import com.revature.repos.CartItemDAO;
 
+import java.util.List;
+
 public class CartItemService {
     private final CartItemDAO cartItemDAO;
 
     public CartItemService(CartItemDAO cartItemDAO) { this.cartItemDAO = cartItemDAO; }
+
+    public List<CartItem> getAllCartItems(int userId){
+        return cartItemDAO.getAllCartItemsByUserId(userId);
+    }
 
     public CartItem newCartItem(int userId, int cartItemId, int quantity) {
         CartItem newCartItem = new CartItem(userId, cartItemId, quantity);
